@@ -1,6 +1,6 @@
 # escposfs
 
-A Plan 9 sytle filesystem for ESC/POS receipt printers over USB.  Works on the Yirigui MTHP80.
+A Plan 9 sytle filesystem for ESC/POS receipt printers over USB.  Works on the Yirigui MHTP80.
 
 ## Install
 
