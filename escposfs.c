@@ -81,7 +81,7 @@ rdctl(Req *r)
 	
 
 	pfont = (pset.set & 0x01)? "small" : "big";
-	pbold = (pset.set & 0x04)? "on" : "off";
+	pbold = (pset.set & 0x08)? "on" : "off";
 	puline = (pset.set & 0x80)? "on" : "off";
 	ptall = (pset.set & 0x10)? "on" : "off";
 	pwide = (pset.set & 0x20)? "on" : "off";
@@ -102,6 +102,7 @@ rdctl(Req *r)
 
 	s = out;
 	e = out + sizeof(out);
+	s = seprint(s, e, "set %uX\n", pset.set);
 	s = seprint(s, e, "font %s\n", pfont);
 	s = seprint(s, e, "bold %s\n", pbold);
 	s = seprint(s, e, "underline %s\n", puline);
@@ -198,7 +199,7 @@ wrctl(Req *r)
 			pset.set &= ~0x20;
 		}
 		if(strcmp(cmd[1], "on") == 0){
-			pset.set |= 020;
+			pset.set |= 0x20;
 		}
 		pos[2] = pset.set;
 		n = write(epfd, pos, 3);
@@ -324,7 +325,7 @@ rstart(Srv*)
 		sysfatal("initfs: alloctree: %r");
 	root = s.tree->root;
 	if((devdir = createfile(root, "escposfs", user, DMDIR|0555, nil)) == nil)
-		sysfatal("initfs: createfile: scalefs: %r");
+		sysfatal("initfs: createfile: escposfs: %r");
 	for(i = 0; i < nelem(files); i++){
 		if(createfile(devdir, files[i].name, user, files[i].mode, files + i) == nil)
 			sysfatal("initfs: createfile: %s: %r", files[i].name);
